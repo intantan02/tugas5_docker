@@ -1,0 +1,29 @@
+GET http://localhost:5000/Notes
+
+###
+GET http://localhost:5000/Notes/5
+
+###
+POST http://localhost:5000/add-Notes
+Content-Type: application/json
+
+{
+    "Judul": "rayoga",
+    "Isi": "aditya@gmail.com"
+    
+}
+
+###
+PATCH http://localhost:5000/edit-Notes/3
+Content-Type: application/json
+
+{
+    "Judul": "Aditya Prayoga",
+    "Isi": "1@gmail.com"
+    
+}
+
+###
+DELETE http://localhost:5000/del-Notes/1
+
+
