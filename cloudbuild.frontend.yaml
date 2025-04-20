@@ -1,0 +1,40 @@
+steps: 
+  - name: "gcr.io/cloud-builders/npm"
+    entrypoint: bash
+    args: 
+      - -c
+      - |
+        if [ ! -d "node_modules" ]; then
+          echo "Installing dependencies"
+          npm ci
+        else
+          echo "Skipping npm install, node_modules exists"
+        fi
+    dir: "fe"
+    volumes:
+      - name: "npm-cache"
+        path: "/root/.npm"
+  
+  - name: "gcr.io/cloud-builders/npm"
+    entrypoint: bash
+    args: 
+      - -c
+      - |
+        npm run build
+    dir: "fe"
+    volumes:
+      - name: "npm-cache"
+        path: "/root/.npm"
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        for i in {1..5}; do
+          gcloud app deploy --quiet && break || sleep 10
+        done
+    dir: "fe"
+
+options: 
+  logging: CLOUD_LOGGING_ONLY
