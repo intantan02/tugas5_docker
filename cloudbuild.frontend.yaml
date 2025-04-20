@@ -10,7 +10,7 @@ steps:
         else
           echo "Skipping npm install, node_modules exists"
         fi
-    dir: "fe"
+    dir: "frontend"
     volumes:
       - name: "npm-cache"
         path: "/root/.npm"
@@ -21,7 +21,7 @@ steps:
       - -c
       - |
         npm run build
-    dir: "fe"
+    dir: "frontend"
     volumes:
       - name: "npm-cache"
         path: "/root/.npm"
@@ -34,7 +34,7 @@ steps:
         for i in {1..5}; do
           gcloud app deploy --quiet && break || sleep 10
         done
-    dir: "fe"
+    dir: "frontend"
 
 options: 
   logging: CLOUD_LOGGING_ONLY
