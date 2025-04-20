@@ -1,14 +1,22 @@
 runtime: nodejs20
-service: fe-184  # ganti nama service kalau mau
+service: fe-184  # Ganti nama service sesuai kebutuhan
 instance_class: F1
 
 handlers:
-  - url: /
+  - url: /static
+    static_dir: build/static  # Menyajikan file static seperti JS, CSS, dll.
+
+  - url: /index.html
     static_files: build/index.html
     upload: build/index.html
 
-  - url: /(.*)
+  - url: /(.*\.(js|css|html|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|otf))
     static_files: build/\1
-    upload: build/(.*)
+    upload: build/(.*\.(js|css|html|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|otf))
 
-default_expiration: "1h"
+  # Fallback handler untuk aplikasi single-page, mengarahkan semua rute ke index.html
+  - url: /(.*)
+    static_files: build/index.html
+    upload: build/index.html
+
+default_expiration: "1d"  # Mengatur caching untuk file statis hingga 1 hari
